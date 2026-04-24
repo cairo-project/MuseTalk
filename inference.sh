@@ -32,15 +32,14 @@ else
 fi
 
 # Define the model paths based on the version
+MODEL_BASE="${MUSETALK_MODEL_DIR:-/fsx/shared/users/landz/models/Musetalk}"
 if [ "$version" = "v1.0" ]; then
-    model_dir="./models/musetalk"
-    unet_model_path="$model_dir/pytorch_model.bin"
-    unet_config="$model_dir/musetalk.json"
+    unet_model_path="$MODEL_BASE/musetalk/pytorch_model.bin"
+    unet_config="$MODEL_BASE/musetalk/musetalk.json"
     version_arg="v1"
 elif [ "$version" = "v1.5" ]; then
-    model_dir="./models/musetalkV15"
-    unet_model_path="$model_dir/unet.pth"
-    unet_config="$model_dir/musetalk.json"
+    unet_model_path="$MODEL_BASE/musetalkV15/unet.pth"
+    unet_config="$MODEL_BASE/musetalkV15/musetalk.json"
     version_arg="v15"
 else
     echo "Invalid version specified. Please use v1.0 or v1.5."

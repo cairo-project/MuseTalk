@@ -7,12 +7,14 @@ import numpy as np
 from PIL import Image
 import os
 
+_MODEL_DIR = os.environ.get("MUSETALK_MODEL_DIR", "/fsx/shared/users/landz/models/Musetalk")
+
 class VAE():
     """
     VAE (Variational Autoencoder) class for image processing.
     """
 
-    def __init__(self, model_path="./models/sd-vae-ft-mse/", resized_img=256, use_float16=False):
+    def __init__(self, model_path=None, resized_img=256, use_float16=False):
         """
         Initialize the VAE instance.
 
@@ -20,6 +22,8 @@ class VAE():
         :param resized_img: The size to which images are resized.
         :param use_float16: Whether to use float16 precision.
         """
+        if model_path is None:
+            model_path = os.path.join(_MODEL_DIR, "sd-vae")
         self.model_path = model_path
         self.vae = AutoencoderKL.from_pretrained(self.model_path)
 

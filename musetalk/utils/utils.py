@@ -11,15 +11,21 @@ import os.path as osp
 from musetalk.models.vae import VAE
 from musetalk.models.unet import UNet,PositionalEncoding
 
+_MODEL_DIR = os.environ.get("MUSETALK_MODEL_DIR", "/fsx/shared/users/landz/models/Musetalk")
+
 
 def load_all_model(
-    unet_model_path=os.path.join("models", "musetalkV15", "unet.pth"),
+    unet_model_path=None,
     vae_type="sd-vae",
-    unet_config=os.path.join("models", "musetalkV15", "musetalk.json"),
+    unet_config=None,
     device=None,
 ):
+    if unet_model_path is None:
+        unet_model_path = os.path.join(_MODEL_DIR, "musetalkV15", "unet.pth")
+    if unet_config is None:
+        unet_config = os.path.join(_MODEL_DIR, "musetalkV15", "musetalk.json")
     vae = VAE(
-        model_path = os.path.join("models", vae_type),
+        model_path=os.path.join(_MODEL_DIR, vae_type),
     )
     print(f"load unet model from {unet_model_path}")
     unet = UNet(

@@ -2,6 +2,8 @@ import torch
 import time
 import os
 import cv2
+
+_MODEL_DIR = os.environ.get("MUSETALK_MODEL_DIR", "/fsx/shared/users/landz/models/Musetalk")
 import numpy as np
 from PIL import Image
 from .model import BiSeNet
@@ -56,13 +58,17 @@ class FaceParsing():
         cv2.rectangle(mask, (center + right_cheek_width, 0), (512, 512), 255, -1)  # Right cheek
         return mask
 
-    def model_init(self, 
-                   resnet_path='./models/face-parse-bisent/resnet18-5c106cde.pth', 
-                   model_pth='./models/face-parse-bisent/79999_iter.pth'):
+    def model_init(self,
+                   resnet_path=None,
+                   model_pth=None):
+        if resnet_path is None:
+            resnet_path = os.path.join(_MODEL_DIR, 'face-parse-bisent', 'resnet18-5c106cde.pth')
+        if model_pth is None:
+            model_pth = os.path.join(_MODEL_DIR, 'face-parse-bisent', '79999_iter.pth')
         net = BiSeNet(resnet_path)
         if torch.cuda.is_available():
             net.cuda()
-            net.load_state_dict(torch.load(model_pth)) 
+            net.load_state_dict(torch.load(model_pth))
         else:
             net.load_state_dict(torch.load(model_pth, map_location=torch.device('cpu')))
         net.eval()
