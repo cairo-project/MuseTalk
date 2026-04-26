@@ -19,8 +19,6 @@ dependencies = [
     "tqdm",
     "librosa",
     "Pillow",
-    "mmpose==1.1.0",
-    "face-alignment",
 ]
 
 [project.scripts]
